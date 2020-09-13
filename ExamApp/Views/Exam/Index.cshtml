@@ -1,0 +1,120 @@
+﻿@model ExamQuestionModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="w-50 mx-auto shadow p-4 mt-5" asp-action="CreateExam" method="post">
+
+    <div class="form-group">
+        <label>Başlık</label>
+        <span class="text-danger"></span>
+        <select class="form-control" id="title" asp-for="@Model.Exam.Title" asp-items="@ViewBag.TitleList">
+            <option hidden value="-1">Seçiniz</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Haber içeriği</label>
+        <textarea id="content" asp-for="@Model.Exam.Content" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Soru 1</label>
+        <textarea asp-for="@Model.Questions[0].QuestionText" class="form-control"></textarea>
+        <div class="input-group">
+            A <input asp-for="@Model.Questions[0].AOptions" class="form-control" />
+            B <input asp-for="@Model.Questions[0].BOptions" class="form-control" />
+        </div>
+        <div class="input-group">
+            C <input asp-for="@Model.Questions[0].COptions" class="form-control" />
+            D <input asp-for="@Model.Questions[0].DOptions" class="form-control" />
+        </div>
+        <select class="form-control" style="width:100px;" asp-for="@Model.Questions[0].SuccessOption" asp-items="@ViewBag.Options">
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Soru 2</label>
+        <textarea asp-for="@Model.Questions[1].QuestionText" class="form-control"></textarea>
+        <div class="input-group">
+            A <input asp-for="@Model.Questions[1].AOptions" class="form-control" />
+            B <input asp-for="@Model.Questions[1].BOptions" class="form-control" />
+        </div>
+        <div class="input-group">
+            C <input asp-for="@Model.Questions[1].COptions" class="form-control" />
+            D <input asp-for="@Model.Questions[1].DOptions" class="form-control" />
+        </div>
+
+        <select class="form-control" style="width:100px;" asp-for="@Model.Questions[1].SuccessOption" asp-items="@ViewBag.Options">
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Soru 3</label>
+        <textarea asp-for="@Model.Questions[2].QuestionText" class="form-control"></textarea>
+        <div class="input-group">
+            A <input asp-for="@Model.Questions[2].AOptions" class="form-control" />
+            B <input asp-for="@Model.Questions[2].BOptions" class="form-control" />
+        </div>
+
+        <div class="input-group">
+            C <input asp-for="@Model.Questions[2].COptions" class="form-control" />
+            D <input asp-for="@Model.Questions[2].DOptions" class="form-control" />
+        </div>
+
+        <select class="form-control" style="width:100px;" asp-for="@Model.Questions[2].SuccessOption" asp-items="@ViewBag.Options">
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Soru 4</label>
+        <textarea asp-for="@Model.Questions[3].QuestionText" class="form-control"></textarea>
+        <div class="input-group">
+            A <input asp-for="@Model.Questions[3].AOptions" class="form-control" />
+            B <input asp-for="@Model.Questions[3].BOptions" class="form-control" />
+        </div>
+        <div class="input-group">
+            C <input asp-for="@Model.Questions[3].COptions" class="form-control" />
+            D <input asp-for="@Model.Questions[3].DOptions" class="form-control" />
+        </div>
+        <select class="form-control" style="width:100px;" asp-for="@Model.Questions[3].SuccessOption" asp-items="@ViewBag.Options">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-info btn-sm">Oluştur</button>
+
+</form>
+
+
+
+
+@section JavaScript{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#title").change(function () {
+                let href = $("#title").val();
+                $.ajax({
+                    type: "GET",
+                    url: "./Exam/GetContent",
+                    data: { href: href },
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8;",
+                    success: function (response) {
+                        $("#content").val(response.toString())
+                    },
+                    error: function (err) {
+                        console.log(err.statusText.toString())
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}
+
+
